@@ -1,0 +1,183 @@
+margaritaramirez@Margaritas-MacBook-Air 031124-ph3-05-intro-to-sql % sqlite3
+SQLite version 3.43.2 2023-10-10 13:08:14
+Enter ".help" for usage hints.
+Connected to a transient in-memory database.
+Use ".open FILENAME" to reopen on a persistent database.
+sqlite> CREATE TABLE spiders_table (
+(x1...> species TEXT ,
+(x1...> legs INTEGER,
+(x1...> habitat TEXT
+(x1...> );
+sqlite> .schema
+CREATE TABLE spiders_table (
+species TEXT ,
+legs INTEGER,
+habitat TEXT
+);
+sqlite> ALTER TABLE spiders_table
+   ...> ADD COLUMN id INTEGER PRIMARY KEY;
+Parse error: Cannot add a PRIMARY KEY column
+sqlite> DROP TABLE
+   ...> ;
+Parse error: near ";": syntax error
+  DROP TABLE ;
+             ^--- error here
+sqlite> DROP TABLE spiders_table;
+sqlite> .shema
+Error: unknown command or invalid arguments:  "shema". Enter ".help" for help
+sqlite> .schema
+sqlite> ^D
+margaritaramirez@Margaritas-MacBook-Air 031124-ph3-05-intro-to-sql % sqlite3 main.db
+SQLite version 3.43.2 2023-10-10 13:08:14
+Enter ".help" for usage hints.
+sqlite> CREATE TABLE sandwiches_table (
+(x1...> id INTEGER PRIMARY KEY,
+(x1...> ingredients TEXT,
+(x1...> is_tasty BOOLEAN,
+(x1...> calories INTEGER,
+(x1...> name TEXT,
+(x1...> shape TEXT,
+(x1...> );
+Parse error: near ")": syntax error
+  BOOLEAN, calories INTEGER, name TEXT, shape TEXT, );
+                                      error here ---^
+sqlite> CREATE TABLE sandwiches_table (
+(x1...> (x1...> id INTEGER PRIMARY KEY,
+(x2...> (x1...> ingredients TEXT,
+(x3...> (x1...> is_tasty BOOLEAN,
+(x4...> (x1...> calories INTEGER,
+(x5...> (x1...> name TEXT,
+(x6...> (x1...> shape TEXT,
+(x7...> ,
+(x7...> ;
+Parse error: near "(": syntax error
+  CREATE TABLE sandwiches_table ( (x1...> id INTEGER PRIMARY KEY, (x1...> ingred
+                    error here ---^
+sqlite> CREATE TABLE sandwiches_table (
+(x1...> (x1...> id INTEGER PRIMARY KEY,
+(x2...> (x1...> ingredients TEXT,
+(x3...> (x1...> is_tasty BOOLEAN,
+(x4...> (x1...> calories INTEGER,
+(x5...> (x1...> name TEXT,
+(x6...> (x1...> shape TEXT
+(x7...> );
+Parse error: near "(": syntax error
+  CREATE TABLE sandwiches_table ( (x1...> id INTEGER PRIMARY KEY, (x1...> ingred
+                    error here ---^
+sqlite> CREATE TABLE sandwiches_table (
+(x1...> id INTEGER PRIMARY KEY,
+(x1...> ingredients TEXT,
+(x1...> is_tasty BOOLEAN,
+(x1...> calories INTEGER,
+(x1...> name TEXT,
+(x1...> shape TEXT
+(x1...> );
+sqlite> .SCHEMA
+Error: unknown command or invalid arguments:  "SCHEMA". Enter ".help" for help
+sqlite> .schema
+CREATE TABLE sandwiches_table (
+id INTEGER PRIMARY KEY,
+ingredients TEXT,
+is_tasty BOOLEAN,
+calories INTEGER,
+name TEXT,
+shape TEXT
+);
+sqlite> CRUDsqlite> 
+sqlite> INSERT INTO sandwiches_table (ingredients, is_tasty, calories, name, shape) VALUES ()
+   ...> VALUES ("mustard, ham, cheese, pickles, bread", TRUE, 1200, "Cuban", "long rectangle");
+Parse error: near ")": syntax error
+  edients, is_tasty, calories, name, shape) VALUES () VALUES ("mustard, ham, che
+                                      error here ---^
+sqlite> INSERT INTO sandwiches_table (ingredients, is_tasty, calories, name, shape)
+   ...> VALUES ("mustard, ham, cheese, pickles, bread", TRUE, 1200, "Cuban", "long rectangle");
+sqlite> SELECT * FROM sandwiches_table;
+1|mustard, ham, cheese, pickles, bread|1|1200|Cuban|long rectangle
+sqlite> .headers on
+sqlite> .mode columns
+sqlite> SELECT * FROM sandwiches_table;
+id  ingredients                           is_tasty  calories  name   shape         
+--  ------------------------------------  --------  --------  -----  --------------
+1   mustard, ham, cheese, pickles, bread  1         1200      Cuban  long rectangle
+sqlite> SELECT name FROM sandwiches_table;
+name 
+-----
+Cuban
+sqlite> SELECT name, is_tasty FROM sandwiches_table;
+name   is_tasty
+-----  --------
+Cuban  1       
+sqlite> INSERT INTO sandwiches_table (ingredients, is_tasty, calories, name, shape)
+   ...> VALUES ("bacon, lettuce, tomato, mayo, bread" TRUE, 1200, "BLT","triangle")
+   ...> INSERT INTO sandwiches_table (ingredients, is_tasty, calories, name, shape)
+   ...> VALUES ("tuna, lettuce, tomato, mayo, bread" FALSE, 1200, "Tuna Sandwich","square");
+Parse error: near "TRUE": syntax error
+  pe) VALUES ("bacon, lettuce, tomato, mayo, bread" TRUE, 1200, "BLT","triangle"
+                                      error here ---^
+sqlite> INSERT INTO sandwiches_table (ingredients, is_tasty, calories, name, shape)
+   ...> VALUES ("bacon, lettuce, tomato, mayo, bread", TRUE, 1200, "BLT","triangle")
+   ...> ;
+sqlite> SELECT name, is_tasty FROM sandwiches_table;
+name   is_tasty
+-----  --------
+Cuban  1       
+BLT    1       
+sqlite> SELECT * FROM sandwiches_table;
+id  ingredients                           is_tasty  calories  name   shape         
+--  ------------------------------------  --------  --------  -----  --------------
+1   mustard, ham, cheese, pickles, bread  1         1200      Cuban  long rectangle
+2   bacon, lettuce, tomato, mayo, bread   1         1200      BLT    triangle      
+sqlite> INSERT INTO sandwiches_table (ingredients, is_tasty, calories, name, shape)
+   ...> VALUES ("tuna, lettuce, tomato, mayo, bread", FALSE, 1200, "Tuna Sandwich","square");
+sqlite> SELECT * FROM sandwiches_table;
+id  ingredients                           is_tasty  calories  name           shape         
+--  ------------------------------------  --------  --------  -------------  --------------
+1   mustard, ham, cheese, pickles, bread  1         1200      Cuban          long rectangle
+2   bacon, lettuce, tomato, mayo, bread   1         1200      BLT            triangle      
+3   tuna, lettuce, tomato, mayo, bread    0         1200      Tuna Sandwich  square        
+sqlite> WHERE is_tasty = TRUE AND calories > 100
+   ...> ;
+Parse error: near "WHERE": syntax error
+  WHERE is_tasty = TRUE AND calories > 100 ;
+  ^--- error here
+sqlite> SELECT * FROM sandwiches_table WHERE is_tasty = TRUE AND calories > 100;
+id  ingredients                           is_tasty  calories  name   shape         
+--  ------------------------------------  --------  --------  -----  --------------
+1   mustard, ham, cheese, pickles, bread  1         1200      Cuban  long rectangle
+2   bacon, lettuce, tomato, mayo, bread   1         1200      BLT    triangle      
+sqlite> UPDATE sandwiches_table SET calories = 1200
+   ...> WHERE id = 1
+   ...> ;
+sqlite> UPDATE sandwiches_table SET calories = 600
+   ...> ;
+sqlite> UPDATE sandwiches_table SET calories = 1200
+   ...> WHERE id = 1;
+sqlite> SELECT * FROM sandwiches_table;
+id  ingredients                           is_tasty  calories  name           shape         
+--  ------------------------------------  --------  --------  -------------  --------------
+1   mustard, ham, cheese, pickles, bread  1         1200      Cuban          long rectangle
+2   bacon, lettuce, tomato, mayo, bread   1         600       BLT            triangle      
+3   tuna, lettuce, tomato, mayo, bread    0         600       Tuna Sandwich  square        
+sqlite> UPDATE sandwiches_table SET calories = 10 WHERE id = 3
+   ...> ;
+sqlite> SELECT * FROM sandwiches_table;
+id  ingredients                           is_tasty  calories  name           shape         
+--  ------------------------------------  --------  --------  -------------  --------------
+1   mustard, ham, cheese, pickles, bread  1         1200      Cuban          long rectangle
+2   bacon, lettuce, tomato, mayo, bread   1         600       BLT            triangle      
+3   tuna, lettuce, tomato, mayo, bread    0         10        Tuna Sandwich  square        
+sqlite> UPDATE sandwiches_table SET shape = "triangle_small" WHERE id = 2;
+sqlite> SELECT * FROM sandwiches_table;
+id  ingredients                           is_tasty  calories  name           shape         
+--  ------------------------------------  --------  --------  -------------  --------------
+1   mustard, ham, cheese, pickles, bread  1         1200      Cuban          long rectangle
+2   bacon, lettuce, tomato, mayo, bread   1         600       BLT            triangle_small
+3   tuna, lettuce, tomato, mayo, bread    0         10        Tuna Sandwich  square        
+sqlite> DELETE FROM sandwiches_table WHERE id = 3;
+sqlite> SELECT * FROM sandwiches_table;
+id  ingredients                           is_tasty  calories  name   shape         
+--  ------------------------------------  --------  --------  -----  --------------
+1   mustard, ham, cheese, pickles, bread  1         1200      Cuban  long rectangle
+2   bacon, lettuce, tomato, mayo, bread   1         600       BLT    triangle_small
+sqlite> .quit
+margaritaramirez@Margaritas-MacBook-Air 031124-ph3-05-intro-to-sql % 
